@@ -1,14 +1,9 @@
 class Player
+    attr_reader :player_name, :token
+
     def initialize(player_name, token)
         @player_name = player_name
         @token = token
-    end
-    def get_name
-        @player_name
-    end
-    
-    def get_token
-        @token
     end
 end
 
@@ -18,11 +13,15 @@ class Board
     end
 
     def selection(player)
-        selection = gets.chomp.to_i
-        if @array[selection - 1] == " "
-            @array[selection - 1] = player.get_token
-        else 
+        selection = gets.chomp
+        if !('0'..'9').include?("#{selection}")
+            puts "invalid selection, please try again"
+            return false
+        elsif @array[selection.to_i - 1] != " "
             puts "that space is taken, try again"
+            return false
+        else 
+            @array[selection.to_i - 1] = player.token
         end
     end
 
@@ -61,30 +60,23 @@ class Board
 end
 
 class GamePlay
-    @@turn_count = 1
+    attr_reader :player_turn, :turn_count
 
     def initialize(board, player_1, player_2)
         puts board.print_board
         @player_1 = player_1
         @player_2 = player_2
         @player_turn = player_1
-    end
-
-    def whos_turn
-        @player_turn
+        @turn_count = 1
     end
 
     def turn_over(board)
-        @@turn_count +=1
+        @turn_count +=1
         if @player_turn == @player_1 
             @player_turn = @player_2
         else @player_turn = @player_1 
         end
         puts board.print_board
-    end
-
-    def turn
-        @@turn_count
     end
 end
 
@@ -97,21 +89,21 @@ puts "Player 2, what is your name?"
 player_name = gets.chomp
 player_2 = Player.new(player_name, "O")
 
-puts "Great! Let us begin #{player_1.get_name} and  #{player_2.get_name}."
-
+puts "Great! Let us begin #{player_1.player_name} and  #{player_2.player_name}."
 board = Board.new
 game = GamePlay.new(board, player_1, player_2)
 
-while game.turn < 10
-    player = game.whos_turn
-    puts "#{player.get_name} is up. Please make a selection 1-9."
-    board.selection(player)
+while game.turn_count < 10
+    player = game.player_turn
+    puts "#{player.player_name} is up. Please make a selection 1-9."
+    while !board.selection(player)
+    end 
     game.turn_over(board)
 
     if board.check_winner()
-        puts "#{player.get_name.upcase} IS THE WINNER"
+        puts "#{player.player_name.upcase} IS THE WINNER"
         break
-    elsif game.turn == 10
+    elsif game.turn_count == 10
         puts "Game Over, its a tie!"
     else
     end
