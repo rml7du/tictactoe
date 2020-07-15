@@ -80,7 +80,7 @@ class GamePlay
         puts board.print_board
     end
 end
-=begin
+### comment all of this out for the testing###
 ### Set Up Game ###
 puts "Player 1, what is your name?"
 player_name = gets.chomp
@@ -110,4 +110,3 @@ while game.turn_count < 10
     end
 end
 
-=end
