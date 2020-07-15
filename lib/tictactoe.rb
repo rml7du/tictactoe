@@ -8,6 +8,7 @@ class Player
 end
 
 class Board
+    attr_reader :array
     def initialize()
         @array = Array.new(9){" "}
     end
@@ -79,7 +80,7 @@ class GamePlay
         puts board.print_board
     end
 end
-
+=begin
 ### Set Up Game ###
 puts "Player 1, what is your name?"
 player_name = gets.chomp
@@ -96,7 +97,7 @@ game = GamePlay.new(board, player_1, player_2)
 while game.turn_count < 10
     player = game.player_turn
     puts "#{player.player_name} is up. Please make a selection 1-9."
-    while !board.selection(player)
+    while !board.selection(player) #ensures valid selections
     end 
     game.turn_over(board)
 
@@ -108,3 +109,5 @@ while game.turn_count < 10
     else
     end
 end
+
+=end
